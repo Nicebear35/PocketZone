@@ -11702,9 +11702,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f0528a1484b21747a5f239f85b5bddf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _inventoryButtonPosition: {fileID: 1944400277}
-  _inventoryOpenPosition: {fileID: 1303763139}
-  _timeToMove: 0.5
+  _inventoryButtonTransform: {fileID: 1944400277}
+  _timeToScaleUp: 0.3
+  _timeToScaleDown: 0.05
+  _timeToMove: 3
 --- !u!1 &1110600532
 GameObject:
   m_ObjectHideFlags: 0

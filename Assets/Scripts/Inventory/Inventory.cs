@@ -6,9 +6,12 @@ using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour
 {
-    [SerializeField] private RectTransform _inventoryButtonPosition;
-    [SerializeField] private float _timeToMove;
+    [SerializeField] private RectTransform _inventoryButtonTransform;
+    [SerializeField] private float _timeToScaleUp;
+    [SerializeField] private float _timeToScaleDown;
+    [SerializeField]private float _timeToMove;
 
+    private float _timeToScale;
     private bool _isOpened;
     private Vector3 _targetPosition;
     private Vector3 _targetScale;
@@ -17,9 +20,7 @@ public class Inventory : MonoBehaviour
     private void Start()
     {
         _isOpened = false;
-        _targetPosition = _isOpened ? _inventoryButtonPosition.localPosition : Vector3.zero;
-        _targetScale = _isOpened ? Vector3.zero : Vector3.one;
-        transform.position = _inventoryButtonPosition.transform.position;
+        transform.localPosition = _inventoryButtonTransform.localPosition; //2
         transform.localScale = Vector3.zero;
     }
 
@@ -27,27 +28,28 @@ public class Inventory : MonoBehaviour
     {
         while (transform.localPosition != targetPosition)
         {
-            Debug.Log($"current position - {transform.localPosition} / target - {targetPosition}");
-
-            transform.localPosition = Vector3.MoveTowards(transform.localPosition, targetPosition, _timeToMove);
-            transform.localScale = Vector3.MoveTowards(transform.localScale, targetScale, _timeToMove);
+            transform.localPosition = Vector3.MoveTowards(transform.localPosition, targetPosition, _timeToMove); //2
             yield return null;
-
-            Debug.Log($"position - {transform.localPosition} / scale - {transform.localScale}");
+            transform.localScale = Vector3.MoveTowards(transform.localScale, targetScale, _timeToScale);
+            yield return null;
         }
 
         _isOpened = !_isOpened;
+        Debug.Log(_isOpened);
     }
 
     public void OpenOrCloseInventory()
     {
-        if (_openInventoryCoroutine == null)
-        {
-            _openInventoryCoroutine = StartCoroutine(ShowOrHideInventory(_targetPosition, _targetScale));
-        }
-        else
+        _timeToScale = _isOpened ? _timeToScaleDown : _timeToScaleUp;
+        _targetPosition = _isOpened ? _inventoryButtonTransform.localPosition : Vector3.zero; //1
+        _targetScale = _isOpened ? Vector3.zero : Vector3.one;
+
+        if (_openInventoryCoroutine != null)
         {
             StopCoroutine(_openInventoryCoroutine);
         }
+
+        _openInventoryCoroutine = StartCoroutine(ShowOrHideInventory(_targetPosition, _targetScale));
+
     }
 }

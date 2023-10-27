@@ -24,7 +24,6 @@ public class Weapon : MonoBehaviour
         _reloadTime = new WaitForSeconds(1.5f);
         _isReloaded = true;
         _currentAmmo = _maxAmmo;
-        Debug.Log($"{_isReloaded}");
     }
 
     public IEnumerator Shoot(Weapon weapon, Enemy enemy)
