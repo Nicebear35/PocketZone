@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -22,6 +23,9 @@ public class Player : MonoBehaviour
     [SerializeField] private EnemyDetector _enemyDetector;
     [SerializeField] private LootingDetector _lootingDetector;
     [SerializeField] private LootingSystem _lootingSystem;
+    [SerializeField] private GameObject _gameOverScreen;
+
+    public event UnityAction IsPlayerDead;
 
     private Enemy _enemyToShoot;
     private Weapon _currentWeapon;
@@ -83,7 +87,13 @@ public class Player : MonoBehaviour
     public void TakeDamage(float damage)
     {
         _currentHealth -= damage;
-        _healthBar.fillAmount = _currentHealth;
+        _healthBar.fillAmount = _currentHealth / _maxHealth;
+
+        if (_currentHealth <= 0)
+        {
+            _gameOverScreen.SetActive(true);
+            Destroy(gameObject, 0.2f);
+        }
     }
 
     private void AddInventoryItem(InventoryItem item)
