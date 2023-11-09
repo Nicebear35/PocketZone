@@ -30,10 +30,9 @@ public class Weapon : MonoBehaviour
     {
         if (_isReloaded)
         {
-            Debug.Log("стреляем");
             var bullet = Instantiate(_bulletPrefab, _shootPoint.transform.position, Quaternion.identity, _bulletContainer);
             Rigidbody2D bulletRidgidbody = bullet.GetComponent<Rigidbody2D>();
-            bulletRidgidbody.velocity = (enemy.transform.position - transform.position) * _bulletSpeed;
+            bulletRidgidbody.velocity = (enemy.transform.position - _shootPoint.transform.position) * _bulletSpeed;
             _currentAmmo--;
 
             if (_currentAmmo <= 0)
@@ -54,5 +53,6 @@ public class Weapon : MonoBehaviour
     {
         yield return _reloadTime;
         _isReloaded = true;
+        _currentAmmo = _maxAmmo;
     }
 }

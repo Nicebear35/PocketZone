@@ -29,7 +29,7 @@ namespace TMPro.Examples
             if (!enabled)
                 return;
 
-            m_camera = Camera.main;
+            m_camera =  Camera.main;
             Application.targetFrameRate = 9999;
 
             GameObject frameCounter = new GameObject("Frame Counter");

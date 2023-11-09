@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    private int _damage;
+    [SerializeField] private int _damage;
+    [SerializeField] private float _timeToDestroy;
+
     private void OnEnable()
     {
-        _damage = 2;
+        Destroy(gameObject, _timeToDestroy);
     }
 
-    private void OnDisable()
+    private void Update()
     {
-        
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -26,6 +27,6 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        
+
     }
 }
